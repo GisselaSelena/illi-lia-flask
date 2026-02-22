@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f8f9fa;
+    padding: 40px;
+}
+
+h1, h2 {
+    color: #2e5d34;
+}
+
+.eslogan {
+    font-style: italic;
+    color: #555;
+}
+
+a {
+    background-color: #2e5d34;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a:hover {
+    background-color: #1f3f24;
+}

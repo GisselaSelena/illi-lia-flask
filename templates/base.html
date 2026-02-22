@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Illi Liá{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>ILLÍ LIÁ</h1>
+    <p class="eslogan">Jabones Decorativos Artesanales</p>
+
+    <nav>
+        <a href="/">Inicio</a> |
+        <a href="/about">Acerca de</a>
+    </nav>
+    <hr>
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<hr>
+<footer>
+    <p>© 2026 Illi Lia</p>
+</footer>
+
+</body>
+</html>
