@@ -12,9 +12,20 @@
     <p class="eslogan">Jabones Decorativos Artesanales</p>
 
     <nav>
-        <a href="/">Inicio</a> |
+        <a href="/">Inicio</a>
         <a href="/about">Acerca de</a>
     </nav>
+
+    <div class="auth">
+        {% if current_user.is_authenticated %}
+            <p>Bienvenido, {{ current_user.nombre }}</p>
+            <a href="/logout">Cerrar sesión</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/registro">Registro</a>
+        {% endif %}
+    </div>
+
     <hr>
 </header>
 
@@ -24,6 +35,7 @@
 </main>
 
 <hr>
+
 <footer>
     <p>© 2026 Illi Lia</p>
 </footer>

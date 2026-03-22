@@ -25,3 +25,12 @@ a {
 a:hover {
     background-color: #1f3f24;
 }
+
+.auth {
+    margin-top: 10px;
+}
+
+.auth a {
+    display: inline-block;
+    margin: 5px;
+}
