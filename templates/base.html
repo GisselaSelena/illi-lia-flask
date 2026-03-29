@@ -2,42 +2,80 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Illi Liá{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Illi Lia — Jabones Artesanales{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
 <header class="header">
     <div class="container">
-        <h1>ILLÍ LIÁ</h1>
-        <p class="eslogan">Jabones Decorativos Artesanales</p>
 
+        <!-- MARCA -->
+        <div>
+            <h1>ILLI LIA</h1>
+            <p class="eslogan">Jabones Decorativos Artesanales</p>
+        </div>
+
+        <!-- NAVEGACION -->
         <nav>
             <a href="/">Inicio</a>
+            <a href="/catalogo">Coleccion</a>
             <a href="/about">Acerca de</a>
+            {% if current_user.is_authenticated and current_user.rol == 'admin' %}
+                <a href="/productos">Productos</a>
+                <a href="/usuarios">Usuarios</a>
+                <a href="/admin/pedidos" style="position: relative;">
+                    Pedidos
+                    {% if pedidos_pendientes > 0 %}
+                    <span style="
+                        position: absolute;
+                        top: -8px;
+                        right: -16px;
+                        background: var(--dorado);
+                        color: var(--verde);
+                        font-size: 9px;
+                        font-weight: 700;
+                        min-width: 16px;
+                        height: 16px;
+                        border-radius: 50%;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: var(--font-sans);
+                        padding: 0 3px;
+                    ">{{ pedidos_pendientes }}</span>
+                    {% endif %}
+                </a>
+            {% endif %}
         </nav>
 
+        <!-- AUTH -->
         <div class="auth">
             {% if current_user.is_authenticated %}
-                <span>👋 {{ current_user.nombre }}</span>
-                <a href="/logout">Cerrar sesión</a>
+                <span>{{ current_user.nombre }}</span>
+                {% if current_user.rol == 'admin' %}
+                    <a href="/reporte-pdf">PDF</a>
+                    <a href="/logout">Cerrar sesion</a>
+                {% else %}
+                    <a href="/mis-pedidos">Mis pedidos</a>
+                    <a href="/logout">Cerrar sesion</a>
+                {% endif %}
             {% else %}
-                <a href="/login">Login</a>
-                <a href="/registro">Registro</a>
+                <a class="btn-admin" href="/login">Acceso Admin</a>
             {% endif %}
         </div>
+
     </div>
 </header>
 
-<main>
+<main class="main">
     {% block content %}
     {% endblock %}
 </main>
 
-<hr>
-
 <footer>
-    <p>© 2026 Illi Lia</p>
+    <p>© 2026 <strong>Illi Lia</strong> — Jabones Decorativos Artesanales · Ecuador</p>
 </footer>
 
 </body>

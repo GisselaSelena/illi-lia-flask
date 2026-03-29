@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Mis Pedidos — Illí Liá{% endblock %}
+
+{% block content %}
+<div class="section">
+  <div class="container" style="max-width: 860px;">
+
+    <div class="section-head">
+        <span class="eyebrow">Mi cuenta</span>
+        <h2>Mis pedidos</h2>
+    </div>
+
+    {% if pedidos %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pedidos %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td style="font-family: var(--font-serif);">{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+                <td style="color: var(--dorado); font-family: var(--font-serif);">
+                    $ {{ "%.2f"|format(p[3]) }}
+                </td>
+                <td>
+                    <span style="
+                        padding: 4px 10px;
+                        font-size: 10px;
+                        letter-spacing: 1px;
+                        text-transform: uppercase;
+                        background: {% if p[4] == 'completado' %}#eaf3de{% elif p[4] == 'cancelado' %}#fcebeb{% else %}#faeeda{% endif %};
+                        color: {% if p[4] == 'completado' %}#3b6d11{% elif p[4] == 'cancelado' %}#a32d2d{% else %}#854f0b{% endif %};
+                    ">{{ p[4] }}</span>
+                </td>
+                <td style="font-size: 12px; color: var(--texto-suave);">
+                    {{ p[5].strftime('%d/%m/%Y') if p[5] else '-' }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+    <div style="text-align: center; padding: 60px 0;">
+        <p style="font-family: var(--font-serif); font-size: 20px; color: var(--texto-suave);">
+            Aún no tienes pedidos
+        </p>
+        <a href="/catalogo" class="btn-primary" style="display: inline-block; margin-top: 24px;">
+            Ver colección
+        </a>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

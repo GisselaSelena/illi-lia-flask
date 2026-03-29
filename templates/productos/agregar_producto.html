@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Agregar Producto — Illí Liá{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Agregar Producto</h2>
+    <p class="form-subtitle">Nuevo producto para la colección</p>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Nombre del producto</label>
+            <input type="text" name="nombre" placeholder="Ej: Jabón de lavanda" required>
+        </div>
+
+        <div class="form-group">
+            <label>Precio (USD)</label>
+            <input type="number" name="precio" step="0.01" min="0" placeholder="0.00" required>
+        </div>
+
+        <div class="form-group">
+            <label>Cantidad en stock</label>
+            <input type="number" name="cantidad" min="0" placeholder="0" required>
+        </div>
+         
+        <div class="form-group">
+    <label>Descripción</label>
+    <textarea name="descripcion" placeholder="Ej: Relajante y suavizante, ideal para el cuidado diario."></textarea>
+</div>
+
+        <button type="submit" class="btn-submit">Guardar producto</button>
+    </form>
+
+    <div class="form-link">
+        <a href="/productos">← Volver a productos</a>
+    </div>
+</div>
+{% endblock %}

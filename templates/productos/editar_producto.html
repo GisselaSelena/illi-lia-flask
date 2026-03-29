@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Editar Producto — Illí Liá{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Editar Producto</h2>
+    <p class="form-subtitle">Actualiza la información del producto</p>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Nombre del producto</label>
+            <input type="text" name="nombre" value="{{ producto[1] }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Precio (USD)</label>
+            <input type="number" name="precio" step="0.01" min="0" value="{{ producto[2] }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Cantidad en stock</label>
+            <input type="number" name="cantidad" min="0" value="{{ producto[3] }}" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Guardar cambios</button>
+    </form>
+
+    <div class="form-link">
+        <a href="/productos">← Volver a productos</a>
+    </div>
+</div>
+{% endblock %}

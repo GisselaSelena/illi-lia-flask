@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Pedido — Illi Lia{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 80px 32px;">
+
+    {% if exito %}
+        <div style="margin-bottom: 24px;">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin: 0 auto;">
+                <circle cx="32" cy="32" r="30" stroke="#1c3a2a" stroke-width="2"/>
+                <path d="M18 32 L28 42 L46 22" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 300; color: var(--verde); letter-spacing: 1px;">
+            Pedido confirmado!
+        </h2>
+
+        <p style="color: var(--texto-suave); margin-top: 12px; font-size: 14px; letter-spacing: 1px;">
+            Gracias por tu compra. Pronto nos pondremos en contacto contigo.
+        </p>
+
+        <div style="margin-top: 24px; padding: 20px; background: var(--crema-oscura); max-width: 480px; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--dorado); margin-bottom: 12px;">Informacion de entrega</p>
+            <p style="font-size: 13px; color: var(--texto-suave); line-height: 1.8;">
+                Tiempo estimado: <strong style="color: var(--verde);">3 a 5 dias habiles</strong><br>
+                Te contactaremos al numero registrado para coordinar la entrega<br>
+                Recibiras una confirmacion cuando tu pedido sea despachado
+            </p>
+        </div>
+
+        <div style="display: flex; gap: 16px; justify-content: center; margin-top: 36px;">
+            <a href="/catalogo" class="btn-primary">Seguir comprando</a>
+            <a href="/mis-pedidos" class="btn-outline">Ver mis pedidos</a>
+        </div>
+
+    {% else %}
+        <div style="margin-bottom: 24px;">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin: 0 auto;">
+                <circle cx="32" cy="32" r="30" stroke="#8a2a2a" stroke-width="2"/>
+                <path d="M22 22 L42 42 M42 22 L22 42" stroke="#8a2a2a" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 300; color: #8a2a2a; letter-spacing: 1px;">
+            Hubo un problema
+        </h2>
+
+        {% if errores %}
+        <ul style="list-style: none; margin-top: 16px;">
+            {% for error in errores %}
+            <li style="color: var(--texto-suave); font-size: 14px; margin: 6px 0;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <a href="/carrito" class="btn-primary" style="display: inline-block; margin-top: 36px;">
+            Volver al carrito
+        </a>
+
+    {% endif %}
+
+</div>
+{% endblock %}

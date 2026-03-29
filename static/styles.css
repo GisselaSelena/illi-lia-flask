@@ -1,97 +1,749 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f5;
+/* ============================================
+   ILLÍ LIÁ — Styles
+   Paleta: Verde oscuro #1c3a2a · Dorado #c9a84c · Crema #f5f2eb
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+/* ---- Reset y base ---- */
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
-    text-align: center;
+    padding: 0;
 }
 
-/* HEADER */
-header {
-    background: white;
-    padding: 30px 20px;
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
+:root {
+    --verde:       #1c3a2a;
+    --verde-medio: #2d5a3d;
+    --verde-claro: #8aad8a;
+    --dorado:      #c9a84c;
+    --dorado-claro:#e8d5a0;
+    --crema:       #f5f2eb;
+    --crema-oscura:#e8e2d4;
+    --blanco:      #ffffff;
+    --texto:       #1c3a2a;
+    --texto-suave: #6a7a6a;
+    --font-serif:  'Cormorant Garamond', Georgia, serif;
+    --font-sans:   'Jost', Arial, sans-serif;
 }
 
-/* TITULOS */
-h1, h2 {
-    color: #2e5d34;
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-sans);
+    background: var(--crema);
+    color: var(--texto);
+    font-size: 15px;
+    line-height: 1.7;
 }
 
-h1 {
-    margin-bottom: 5px;
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+    background: var(--verde);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.eslogan {
-    font-style: italic;
-    color: #666;
-    margin-bottom: 15px;
+.header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
 }
 
-/* NAV */
+/* Logo / Marca */
+.header h1 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    color: var(--dorado);
+    line-height: 1;
+}
+
+.header .eslogan {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--verde-claro);
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 300;
+}
+
+/* Navegación */
+nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
 nav a {
-    margin: 0 10px;
-    font-weight: bold;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--verde-claro);
+    font-weight: 400;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
 }
 
-/* BOTONES */
-a {
-    background-color: #2e5d34;
-    color: white;
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 6px;
-    display: inline-block;
+nav a:hover {
+    color: var(--dorado);
+    border-bottom-color: var(--dorado);
 }
 
-a:hover {
-    background-color: #1f3f24;
-}
-
-/* LOGIN / REGISTRO */
+/* Auth */
 .auth {
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.auth span {
+    font-size: 11px;
+    color: var(--verde-claro);
+    letter-spacing: 1px;
 }
 
 .auth a {
-    margin: 5px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--verde-claro);
+    transition: color 0.2s;
 }
 
-/* TARJETA (LO QUE HACE QUE SE VEA PRO) */
-.card {
-    background: white;
-    padding: 30px;
-    margin: 40px auto;
-    width: 350px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+.auth a:hover { color: var(--dorado); }
+
+/* Botón acceso admin */
+.btn-admin {
+    background: var(--dorado) !important;
+    color: var(--verde) !important;
+    padding: 9px 22px !important;
+    font-size: 10px !important;
+    letter-spacing: 2px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    border: none !important;
+    transition: background 0.2s !important;
 }
 
-/* INPUTS */
-input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.btn-admin:hover {
+    background: var(--dorado-claro) !important;
+    border-bottom: none !important;
 }
 
-/* BOTONES FORM */
-button {
-    width: 85%;
-    padding: 10px;
-    background-color: #2e5d34;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+    background: var(--verde);
+    padding: 80px 32px 90px;
+    text-align: center;
 }
 
-button:hover {
-    background-color: #1f3f24;
+.hero-line {
+    width: 48px;
+    height: 1px;
+    background: var(--dorado);
+    margin: 0 auto 28px;
 }
 
-/* FOOTER */
-footer {
+.hero h2 {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 300;
+    color: #f0ead8;
+    letter-spacing: 1px;
+    line-height: 1.25;
+}
+
+.hero h2 em {
+    color: var(--dorado);
+    font-style: italic;
+}
+
+.hero p {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--verde-claro);
+    margin-top: 18px;
+    font-weight: 300;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
     margin-top: 40px;
-    color: #777;
+}
+
+.btn-primary {
+    background: var(--dorado);
+    color: var(--verde);
+    padding: 14px 44px;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-family: var(--font-sans);
+    transition: background 0.2s;
+    display: inline-block;
+}
+
+.btn-primary:hover { background: var(--dorado-claro); color: var(--verde); }
+
+.btn-outline {
+    border: 1px solid var(--dorado);
+    color: var(--dorado);
+    padding: 14px 44px;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+}
+
+.btn-outline:hover {
+    background: var(--dorado);
+    color: var(--verde);
+}
+
+/* ============================================
+   FEATURES STRIP
+   ============================================ */
+.features-strip {
+    background: var(--crema-oscura);
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #d9d3c0;
+}
+
+.feature-item {
+    flex: 1;
+    max-width: 240px;
+    text-align: center;
+    padding: 22px 16px;
+    border-right: 1px solid #d9d3c0;
+    font-family: var(--font-sans);
+}
+
+.feature-item:last-child { border-right: none; }
+
+.feature-item .icon {
+    font-size: 18px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.feature-item p {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    font-weight: 400;
+}
+
+/* ============================================
+   SECCIONES GENERALES
+   ============================================ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.section {
+    padding: 64px 0;
+}
+
+.section-head {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.section-head .eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--dorado);
+    font-family: var(--font-sans);
+    font-weight: 400;
+}
+
+.section-head h2 {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--verde);
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   CARDS DE PRODUCTOS
+   ============================================ */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+@media (max-width: 900px) {
+    .productos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+    .productos-grid { grid-template-columns: 1fr; }
+    nav { display: none; }
+    .header .container { padding: 0 20px; }
+}
+
+.producto-card {
+    background: var(--blanco);
+    border: 1px solid var(--crema-oscura);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.producto-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(28, 58, 42, 0.1);
+}
+
+.card-img {
+    height: 200px;
+    background: var(--crema);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--verde);
+    color: var(--dorado);
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+}
+
+.card-body {
+    padding: 22px 20px;
+}
+
+.card-body h3 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--verde);
+    letter-spacing: 0.3px;
+}
+
+.card-body p {
+    font-size: 13px;
+    color: var(--texto-suave);
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--crema-oscura);
+}
+
+.card-price {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: var(--dorado);
+    font-weight: 400;
+}
+
+.card-stock {
+    font-size: 10px;
+    color: var(--texto-suave);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn-card {
+    background: var(--verde);
+    color: var(--dorado);
+    padding: 9px 18px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-block;
+}
+
+.btn-card:hover { background: var(--verde-medio); color: var(--dorado); }
+
+/* ============================================
+   BANNER CTA
+   ============================================ */
+.banner-cta {
+    background: var(--verde);
+    padding: 56px 32px;
+    text-align: center;
+}
+
+.banner-cta h3 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 300;
+    color: #f0ead8;
+    letter-spacing: 1px;
+}
+
+.banner-cta p {
+    font-size: 12px;
+    color: var(--verde-claro);
+    margin-top: 12px;
+    letter-spacing: 1px;
+}
+
+.banner-cta a {
+    display: inline-block;
+    margin-top: 28px;
+    border: 1px solid var(--dorado);
+    color: var(--dorado);
+    padding: 13px 40px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    transition: background 0.2s, color 0.2s;
+}
+
+.banner-cta a:hover {
+    background: var(--dorado);
+    color: var(--verde);
+}
+
+/* ============================================
+   TABLAS (admin)
+   ============================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 14px;
+}
+
+thead tr {
+    background: var(--verde);
+    color: var(--dorado);
+}
+
+thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--crema-oscura);
+    transition: background 0.15s;
+}
+
+tbody tr:hover { background: var(--crema); }
+
+tbody td {
+    padding: 14px 16px;
+    color: var(--texto);
+}
+
+/* ============================================
+   FORMULARIOS
+   ============================================ */
+.form-container {
+    max-width: 480px;
+    margin: 60px auto;
+    background: var(--blanco);
+    border: 1px solid var(--crema-oscura);
+    padding: 48px 40px;
+}
+
+.form-container h2 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--verde);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.form-container .form-subtitle {
+    font-size: 11px;
+    color: var(--texto-suave);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 36px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-bottom: 8px;
+    font-family: var(--font-sans);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--crema-oscura);
+    background: var(--crema);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--texto);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--verde);
+    background: var(--blanco);
+}
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.btn-submit {
+    width: 100%;
+    background: var(--verde);
+    color: var(--dorado);
+    padding: 14px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+}
+
+.btn-submit:hover { background: var(--verde-medio); }
+
+.form-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--texto-suave);
+}
+
+.form-link a {
+    color: var(--verde);
+    border-bottom: 1px solid var(--verde);
+    padding-bottom: 1px;
+}
+
+.mensaje-error {
+    background: #fdf0f0;
+    border: 1px solid #e8c0c0;
+    color: #8a2a2a;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ============================================
+   PÁGINA ADMIN (panel interno)
+   ============================================ */
+.admin-header {
+    background: var(--crema-oscura);
+    padding: 20px 32px;
+    border-bottom: 1px solid #d9d3c0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-header h2 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--verde);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-accion {
+    background: var(--verde);
+    color: var(--dorado);
+    padding: 9px 20px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.btn-accion:hover { background: var(--verde-medio); }
+
+.btn-editar {
+    background: transparent;
+    color: var(--verde);
+    border: 1px solid var(--verde);
+    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-editar:hover { background: var(--verde); color: var(--dorado); }
+
+.btn-eliminar {
+    background: transparent;
+    color: #8a2a2a;
+    border: 1px solid #e8c0c0;
+    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-eliminar:hover { background: #8a2a2a; color: white; border-color: #8a2a2a; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+    background: #111f14;
+    padding: 28px 32px;
+    text-align: center;
+    border-top: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+footer p {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #4a6a4a;
+    font-family: var(--font-sans);
+}
+
+footer strong { color: var(--dorado); }
+
+/* ============================================
+   PÁGINA ABOUT
+   ============================================ */
+.about-section {
+    max-width: 720px;
+    margin: 80px auto;
+    padding: 0 32px;
+    text-align: center;
+}
+
+.about-section h2 {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--verde);
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+}
+
+.about-section p {
+    font-size: 15px;
+    color: var(--texto-suave);
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.about-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--dorado);
+    margin: 32px auto;
+}
+
+/* ============================================
+   UTILIDADES
+   ============================================ */
+.main { min-height: calc(100vh - 72px - 76px); }
+
+.page-title {
+    padding: 40px 32px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-title h2 {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    font-weight: 300;
+    color: var(--verde);
+    letter-spacing: 0.5px;
+}
+
+.page-title p {
+    font-size: 12px;
+    color: var(--texto-suave);
+    margin-top: 6px;
+    letter-spacing: 1px;
 }

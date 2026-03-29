@@ -1,18 +1,72 @@
 {% extends "base.html" %}
+{% block title %}Usuarios — Illi Lía Admin{% endblock %}
 
 {% block content %}
 
-<h2>Usuarios registrados</h2>
+<div class="admin-header">
+    <div>
+        <h2>Gestión de Usuarios</h2>
+        <p style="font-size: 12px; color: var(--texto-suave); margin-top: 4px; letter-spacing: 1px;">
+            Panel de administración
+        </p>
+    </div>
+    <div class="admin-actions">
+        <a href="/agregar_usuario" class="btn-accion">+ Agregar usuario</a>
+    </div>
+</div>
 
-<ul style="list-style: none; padding: 0;">
-{% for u in usuarios %}
-<li style="margin-bottom: 20px;">
-<strong>{{ u[1] }}</strong> - {{ u[2] }}
-<br><br>
-<a href="/editar_usuario/{{ u[0] }}">Editar</a>
-<a href="/eliminar_usuario/{{ u[0] }}">Eliminar</a>
-</li>
-{% endfor %}
-</ul>
+<div class="container" style="padding-top: 32px; padding-bottom: 48px;">
+
+    {% if usuarios %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u[0] }}</td>
+                <td style="font-family: var(--font-serif); font-size: 15px;">{{ u[1] }}</td>
+                <td style="color: var(--texto-suave); font-size: 13px;">{{ u[2] }}</td>
+                <td>
+                    <span style="
+                        padding: 4px 10px;
+                        font-size: 10px;
+                        letter-spacing: 1px;
+                        text-transform: uppercase;
+                        background: {% if u[4] == 'admin' %}#1c3a2a{% else %}#faeeda{% endif %};
+                        color: {% if u[4] == 'admin' %}#c9a84c{% else %}#854f0b{% endif %};
+                    ">{{ u[4] if u[4] else 'cliente' }}</span>
+                </td>
+                <td>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="/editar_usuario/{{ u[0] }}" class="btn-editar">Editar</a>
+                        <a href="/eliminar_usuario/{{ u[0] }}"
+                           class="btn-eliminar"
+                           onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 60px 0;">
+        <p style="font-family: var(--font-serif); font-size: 20px; color: var(--texto-suave);">
+            No hay usuarios registrados
+        </p>
+        <a href="/agregar_usuario" class="btn-primary" style="display: inline-block; margin-top: 24px;">
+            + Agregar primer usuario
+        </a>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock %}

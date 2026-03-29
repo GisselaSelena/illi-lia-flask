@@ -1,17 +1,129 @@
 {% extends "base.html" %}
-
-{% block title %}Inicio - Illi Lia{% endblock %}
+{% block title %}Illi Lía — Jabones Decorativos Artesanales{% endblock %}
 
 {% block content %}
 
-<img src="{{ url_for('static', filename='imagen1.jpg') }}"
-     alt="Logo Illi Liá"
-     style="max-width: 250px; margin: 20px;">
+<!-- HERO -->
+<section class="hero" style="padding: 100px 32px 110px;">
+    <div class="hero-line"></div>
+    <h2>La luz de Lía<br><em>en cada detalle</em></h2>
+    <p>Jabones decorativos artesanales · Elaborados a mano en Ecuador</p>
+    <div class="hero-btns">
+        <a class="btn-primary" href="/catalogo">Ver coleccion</a>
+        <a class="btn-outline" href="/about">Nuestra historia</a>
+    </div>
+</section>
 
-<p>Bienvenido a nuestra tienda online de jabones naturales hechos a mano.</p>
+<!-- BENEFICIOS -->
+<div class="features-strip">
+    <div class="feature-item"><span class="icon">🌿</span><p>100% Natural</p></div>
+    <div class="feature-item"><span class="icon">🤲</span><p>Hecho a mano</p></div>
+    <div class="feature-item"><span class="icon">✨</span><p>Disenos unicos</p></div>
+    <div class="feature-item"><span class="icon">🌸</span><p>Sin quimicos</p></div>
+    <div class="feature-item"><span class="icon">📦</span><p>Envio nacional</p></div>
+</div>
 
-<br>
+<!-- SOBRE LA MARCA -->
+<section class="section" style="background: var(--blanco);">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;">
+            <div>
+                <span class="eyebrow" style="font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--dorado); font-family: var(--font-sans);">Nuestra marca</span>
+                <h2 style="font-family: var(--font-serif); font-size: 36px; font-weight: 300; color: var(--verde); margin-top: 12px; line-height: 1.3;">
+                    Jabones que cuentan<br><em style="color: var(--dorado);">una historia</em>
+                </h2>
+                <p style="font-size: 15px; color: var(--texto-suave); margin-top: 20px; line-height: 1.8;">
+                    Cada jabon de Illi Lía es una pieza unica, elaborada con ingredientes naturales seleccionados y procesos artesanales que cuidan tu piel y el planeta.
+                </p>
+                <p style="font-size: 15px; color: var(--texto-suave); margin-top: 12px; line-height: 1.8;">
+                    Nuestros disenos decorativos los convierten en el regalo perfecto para cualquier ocasion.
+                </p>
+                <a href="/catalogo" class="btn-primary" style="display: inline-block; margin-top: 28px;">Explorar productos</a>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="height: 200px; overflow: hidden; border: 1px solid var(--crema-oscura);">
+                    <img src="{{ url_for('static', filename='img/jabon2.png') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Illi Lía jabon">
+                </div>
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{{ url_for('static', filename='img/jabon1.png') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Illi Lía jabon">
+                </div>
+                <div style="height: 200px; overflow: hidden; border: 1px solid var(--crema-oscura);">
+                    <img src="{{ url_for('static', filename='img/jabon5.jpeg') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Illi Lía jabon">
+                </div>
+                <div style="height: 200px; overflow: hidden; border: 1px solid var(--crema-oscura);">
+                    <img src="{{ url_for('static', filename='img/jabon6.jpeg') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Illi Lía jabon">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<a href="/producto/lavanda-relajante">Ver Lavanda Relajante</a>
+<!-- CATEGORIAS -->
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Coleccion</span>
+            <h2>Nuestros jabones favoritos</h2>
+        </div>
+        <div class="productos-grid">
+            <!-- FLORALES -->
+            <div class="producto-card">
+                <div class="card-img" style="overflow:hidden;">
+                    <img src="{{ url_for('static', filename='img/jabon6.jpeg') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Jabones florales">
+                </div>
+                <div class="card-body">
+                    <h3>Jabones florales</h3>
+                    <p>Disenos inspirados en la naturaleza con aromas suaves y relajantes.</p>
+                    <div class="card-footer">
+                        <span class="card-price">Desde $ 7.50</span>
+                        <a href="/catalogo/floral" class="btn-card">Ver mas</a>
+                    </div>
+                </div>
+            </div>
+            <!-- NUTRITIVOS -->
+            <div class="producto-card">
+                <div class="card-img" style="overflow:hidden;">
+                    <img src="{{ url_for('static', filename='img/jabon7.jpeg') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Jabones nutritivos">
+                </div>
+                <div class="card-body">
+                    <h3>Jabones nutritivos</h3>
+                    <p>Ingredientes como miel, avena y coco para una piel suave e hidratada.</p>
+                    <div class="card-footer">
+                        <span class="card-price">Desde $ 8.50</span>
+                        <a href="/catalogo/nutritivo" class="btn-card">Ver mas</a>
+                    </div>
+                </div>
+            </div>
+            <!-- DECORATIVOS -->
+            <div class="producto-card">
+                <div class="card-img" style="overflow:hidden;">
+                    <img src="{{ url_for('static', filename='img/jabon3.png') }}"
+                         style="width:100%; height:100%; object-fit:cover;" alt="Jabones decorativos">
+                </div>
+                <div class="card-body">
+                    <h3>Jabones decorativos</h3>
+                    <p>Piezas unicas perfectas para regalar en cualquier ocasion especial.</p>
+                    <div class="card-footer">
+                        <span class="card-price">Desde $ 9.00</span>
+                        <a href="/catalogo/decorativo" class="btn-card">Ver mas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="banner-cta">
+    <h3>Descubre el cuidado<br><em style="color: var(--dorado); font-style: italic;">que merece tu piel</em></h3>
+    <p>Elaborados con amor · Ingredientes naturales · Disenos unicos</p>
+    <a class="btn-outline" href="/catalogo" style="display: inline-block; margin-top: 28px; border: 1px solid var(--dorado); color: var(--dorado); padding: 13px 40px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sans);">Ver coleccion completa</a>
+</div>
 
 {% endblock %}

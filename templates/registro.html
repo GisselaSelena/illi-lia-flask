@@ -1,13 +1,56 @@
 {% extends "base.html" %}
+{% block title %}Acceso Admin — Illi Lía{% endblock %}
+
 {% block content %}
+<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+    <div style="width: 100%; max-width: 420px;">
 
-<h2>Registro</h2>
+        <!-- ENCABEZADO -->
+        <div style="text-align: center; margin-bottom: 40px;">
+            <div style="width: 48px; height: 1px; background: var(--dorado); margin: 0 auto 24px;"></div>
+            <h2 style="font-family: var(--font-serif); font-size: 28px; font-weight: 300; color: var(--verde); letter-spacing: 1px;">
+                Acceso Admin
+            </h2>
+            <p style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin-top: 8px;">
+                Illi Lía — Panel de gestión
+            </p>
+            <div style="width: 48px; height: 1px; background: var(--dorado); margin: 24px auto 0;"></div>
+        </div>
 
-<form method="POST">
-<input type="text" name="nombre" placeholder="Nombre" required><br><br>
-<input type="text" name="mail" placeholder="Correo" required><br><br>
-<input type="password" name="password" placeholder="Contraseña" required><br><br>
-<button type="submit">Registrarse</button>
-</form>
+        <!-- MENSAJE ERROR -->
+        {% if mensaje %}
+        <div class="mensaje-error">
+            {{ mensaje }}
+        </div>
+        {% endif %}
 
+        <!-- FORMULARIO -->
+        <div style="background: var(--blanco); border: 1px solid var(--crema-oscura); padding: 40px 36px;">
+            <form method="POST">
+                <div class="form-group">
+                    <label>Correo electrónico</label>
+                    <input type="email" name="mail" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit" style="margin-top: 24px;">
+                    Ingresar
+                </button>
+            </form>
+        </div>
+
+        <!-- LINK REGISTRO -->
+        <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--texto-suave);">
+            ¿No tienes cuenta?
+            <a href="/registro" style="color: var(--verde); border-bottom: 1px solid var(--verde); padding-bottom: 1px;">
+                Regístrate aquí
+            </a>
+        </p>
+
+    </div>
+</div>
 {% endblock %}

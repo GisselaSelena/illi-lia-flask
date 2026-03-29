@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Productos — Illí Liá Admin{% endblock %}
+
+{% block content %}
+
+<div class="admin-header">
+    <div>
+        <h2>Gestión de Productos</h2>
+        <p style="font-size: 12px; color: var(--texto-suave); margin-top: 4px; letter-spacing: 1px;">
+            Panel de administración
+        </p>
+    </div>
+    <div class="admin-actions">
+        <a href="/reporte-pdf" class="btn-accion" style="background: var(--dorado); color: var(--verde);">
+            📄 Exportar PDF
+        </a>
+        <a href="/productos/agregar" class="btn-accion">+ Agregar producto</a>
+    </div>
+</div>
+
+<div class="container" style="padding-top: 32px; padding-bottom: 48px;">
+
+    {% if productos %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in productos %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td style="font-family: var(--font-serif); font-size: 15px;">{{ p[1] }}</td>
+                <td style="color: var(--dorado); font-family: var(--font-serif);">
+                    $ {{ "%.2f"|format(p[2]) }}
+                </td>
+                <td>{{ p[3] }} uds.</td>
+                <td>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="/productos/editar/{{ p[0] }}" class="btn-editar">Editar</a>
+                        <a href="/productos/eliminar/{{ p[0] }}"
+                           class="btn-eliminar"
+                           onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 60px 0;">
+        <p style="font-family: var(--font-serif); font-size: 20px; color: var(--texto-suave);">
+            No hay productos registrados aún
+        </p>
+        <a href="/productos/agregar" class="btn-primary" style="display: inline-block; margin-top: 24px;">
+            + Agregar primer producto
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

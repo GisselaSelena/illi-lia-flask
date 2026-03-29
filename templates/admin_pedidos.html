@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Pedidos — Illi Lia Admin{% endblock %}
+
+{% block content %}
+
+<div class="admin-header">
+    <div>
+        <h2>Gestión de Pedidos</h2>
+        <p style="font-size: 12px; color: var(--texto-suave); margin-top: 4px; letter-spacing: 1px;">
+            Panel de administración
+        </p>
+    </div>
+</div>
+
+<div class="container" style="padding-top: 32px; padding-bottom: 48px;">
+
+    {% if pedidos %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Producto</th>
+                <th>Cant.</th>
+                <th>Total</th>
+                <th>Método</th>
+                <th>Comprobante</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pedidos %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td style="font-family: var(--font-serif);">{{ p[2] }}</td>
+                <td>{{ p[3] }}</td>
+                <td style="color: var(--dorado); font-family: var(--font-serif);">
+                    $ {{ "%.2f"|format(p[4]) }}
+                </td>
+                <td style="font-size: 12px;">{{ p[6] or 'contra entrega' }}</td>
+                <td>
+                    {% if p[7] %}
+                        <a href="/static/comprobantes/{{ p[7] }}" target="_blank"
+                           style="color: var(--verde); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--verde);">
+                            Ver imagen
+                        </a>
+                    {% else %}
+                        <span style="font-size: 11px; color: var(--texto-suave);">Sin comprobante</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <span style="
+                        padding: 4px 10px;
+                        font-size: 10px;
+                        letter-spacing: 1px;
+                        text-transform: uppercase;
+                        background: {% if p[5] == 'completado' %}#eaf3de{% elif p[5] == 'cancelado' %}#fcebeb{% else %}#faeeda{% endif %};
+                        color: {% if p[5] == 'completado' %}#3b6d11{% elif p[5] == 'cancelado' %}#a32d2d{% else %}#854f0b{% endif %};
+                    ">{{ p[5] }}</span>
+                </td>
+                <td style="font-size: 12px; color: var(--texto-suave);">
+                    {{ p[8].strftime('%d/%m/%Y') if p[8] else '-' }}
+                </td>
+                <td>
+                    <form action="/admin/pedido/{{ p[0] }}/estado" method="POST" style="display:flex; gap:6px;">
+                        <select name="estado" style="font-size:11px; padding:4px 6px; border:1px solid var(--crema-oscura); background:var(--crema); color:var(--texto);">
+                            <option value="pendiente" {% if p[5]=='pendiente' %}selected{% endif %}>Pendiente</option>
+                            <option value="completado" {% if p[5]=='completado' %}selected{% endif %}>Completado</option>
+                            <option value="cancelado" {% if p[5]=='cancelado' %}selected{% endif %}>Cancelado</option>
+                        </select>
+                        <button type="submit" class="btn-editar">Guardar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+    <div style="text-align: center; padding: 60px 0;">
+        <p style="font-family: var(--font-serif); font-size: 20px; color: var(--texto-suave);">
+            No hay pedidos registrados aún
+        </p>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

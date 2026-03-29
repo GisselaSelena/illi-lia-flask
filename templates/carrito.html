@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Mi carrito — Illi Lia{% endblock %}
+
+{% block content %}
+<div class="section">
+  <div class="container" style="max-width: 720px;">
+
+    <div class="section-head">
+      <span class="eyebrow">Illi Lia</span>
+      <h2>Mi carrito</h2>
+    </div>
+
+    {% if carrito %}
+
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for id, item in carrito.items() %}
+          <tr>
+            <td>{{ item.nombre }}</td>
+            <td>$ {{ "%.2f"|format(item.precio) }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>$ {{ "%.2f"|format(item.precio * item.cantidad) }}</td>
+            <td>
+              <a href="/eliminar-carrito/{{ item.id }}" class="btn-eliminar">Quitar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div style="text-align: right; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--crema-oscura);">
+        <p style="font-family: var(--font-serif); font-size: 22px; color: var(--verde);">
+          Total: <strong style="color: var(--dorado);">$ {{ "%.2f"|format(total) }}</strong>
+        </p>
+
+        {% if current_user.is_authenticated %}
+          <a href="/checkout" class="btn-primary" style="display:inline-block; margin-top: 20px; padding: 14px 44px;">
+            Finalizar compra
+          </a>
+        {% else %}
+          <p style="margin-top: 20px; font-size: 13px; color: var(--texto-suave);">
+            Para completar tu compra necesitas iniciar sesion
+          </p>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 16px;">
+            <a href="/login" class="btn-primary">Iniciar sesion</a>
+            <a href="/registro" class="btn-outline">Crear cuenta</a>
+          </div>
+        {% endif %}
+
+      </div>
+
+    {% else %}
+      <div style="text-align: center; padding: 60px 0;">
+        <p style="font-family: var(--font-serif); font-size: 22px; color: var(--texto-suave);">
+          Tu carrito esta vacio
+        </p>
+        <a href="/catalogo" class="btn-primary" style="display: inline-block; margin-top: 24px;">
+          Ver coleccion
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

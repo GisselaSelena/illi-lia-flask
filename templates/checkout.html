@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}Finalizar compra — Illi Lia{% endblock %}
+
+{% block content %}
+<div class="section">
+  <div class="container" style="max-width: 960px;">
+    <div class="section-head">
+      <span class="eyebrow">Illi Lia</span>
+      <h2>Finalizar compra</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 380px; gap: 40px;">
+
+      <div>
+        <form action="/confirmar-pedido" method="POST" enctype="multipart/form-data">
+
+          <div style="margin-bottom: 32px;">
+            <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dorado); margin-bottom: 16px;">Datos de contacto</p>
+            <div class="form-group">
+              <label>Nombre completo</label>
+              <input type="text" name="nombre_envio" required value="{{ current_user.nombre }}">
+            </div>
+            <div class="form-group">
+              <label>Telefono</label>
+              <input type="tel" name="telefono" placeholder="0999 999 999" required value="{{ current_user.telefono or '' }}">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 32px;">
+            <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dorado); margin-bottom: 16px;">Direccion de envio</p>
+            <div class="form-group">
+              <label>Direccion</label>
+              <input type="text" name="direccion" placeholder="Calle, numero, sector" required value="{{ current_user.direccion or '' }}">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label>Ciudad</label>
+                <input type="text" name="ciudad" placeholder="Quito" required>
+              </div>
+              <div class="form-group">
+                <label>Provincia</label>
+                <input type="text" name="provincia" placeholder="Pichincha" required>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 32px;">
+            <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dorado); margin-bottom: 16px;">Metodo de pago</p>
+
+            <!-- Banco Pichincha -->
+            <div style="border: 1px solid var(--crema-oscura); padding: 16px; margin-bottom: 2px; background: var(--crema);">
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px; color:var(--texto); text-transform:none; letter-spacing:0;">
+                <input type="radio" name="metodo_pago" value="pichincha" onclick="mostrarPago('pichincha')">
+                Transferencia — Banco Pichincha
+              </label>
+              <div id="info-pichincha" style="display:none; margin-top:14px; padding:14px; background:#fff; border:1px solid var(--crema-oscura);">
+                <p style="font-size:12px; color:var(--texto-suave); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Datos bancarios</p>
+                <table style="font-size:13px; width:100%; border:none;">
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Banco</td><td style="font-weight:500; border:none;">Banco Pichincha</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Tipo</td><td style="border:none;">Cuenta de ahorros</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Numero</td><td style="font-weight:500; border:none;">2233094765</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Titular</td><td style="border:none;">Gissela Selena Medina Cuenca</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">CI</td><td style="border:none;">1753561917</td></tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- Produbanco -->
+            <div style="border: 1px solid var(--crema-oscura); padding: 16px; margin-bottom: 2px; background: var(--crema);">
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px; color:var(--texto); text-transform:none; letter-spacing:0;">
+                <input type="radio" name="metodo_pago" value="produbanco" onclick="mostrarPago('produbanco')">
+                Transferencia — Produbanco
+              </label>
+              <div id="info-produbanco" style="display:none; margin-top:14px; padding:14px; background:#fff; border:1px solid var(--crema-oscura);">
+                <p style="font-size:12px; color:var(--texto-suave); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Datos bancarios</p>
+                <table style="font-size:13px; width:100%; border:none;">
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Banco</td><td style="font-weight:500; border:none;">Produbanco</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Tipo</td><td style="border:none;">Cuenta de ahorros</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Numero</td><td style="font-weight:500; border:none;">243578908764</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">Titular</td><td style="border:none;">Gissela Selena Medina Cuenca</td></tr>
+                  <tr><td style="color:var(--texto-suave); padding:4px 0; border:none;">CI</td><td style="border:none;">1753561917</td></tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- Contra entrega -->
+            <div style="border: 1px solid var(--crema-oscura); padding: 16px; background: var(--crema);">
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px; color:var(--texto); text-transform:none; letter-spacing:0;">
+                <input type="radio" name="metodo_pago" value="contra entrega" checked onclick="mostrarPago('entrega')">
+                Pago contra entrega
+              </label>
+              <div id="info-entrega" style="display:block; margin-top:10px; padding:10px 0;">
+                <p style="font-size:12px; color:var(--texto-suave);">Paga en efectivo al recibir tu pedido. Solo disponible en zonas de envio.</p>
+              </div>
+            </div>
+
+            <!-- Comprobante -->
+            <div id="comprobante-box" style="display:none; margin-top:20px; padding:20px; background:var(--crema); border:1px solid var(--crema-oscura);">
+              <p style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); margin-bottom:12px;">Adjuntar comprobante de pago</p>
+              <div class="form-group">
+                <label>Imagen del comprobante</label>
+                <input type="file" name="comprobante" accept="image/*,.pdf" id="input-comprobante">
+              </div>
+              <p style="font-size:11px; color:var(--texto-suave); margin-top:8px; line-height:1.6;">
+                Tu pago sera revisado. Una vez confirmemos la transferencia, tu pedido sera procesado.
+              </p>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Confirmar pedido</button>
+
+        </form>
+      </div>
+
+      <!-- Resumen -->
+      <div>
+        <div style="background: var(--crema-oscura); padding: 28px; position: sticky; top: 90px;">
+          <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dorado); margin-bottom: 20px;">Resumen del pedido</p>
+
+          {% for id, item in carrito.items() %}
+          <div style="display:flex; justify-content:space-between; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid #d9d3c0;">
+            <div>
+              <p style="font-family:var(--font-serif); font-size:14px; color:var(--verde);">{{ item.nombre }}</p>
+              <p style="font-size:11px; color:var(--texto-suave); margin-top:3px;">Cantidad: {{ item.cantidad }}</p>
+            </div>
+            <p style="font-family:var(--font-serif); color:var(--dorado); font-size:15px;">$ {{ "%.2f"|format(item.precio * item.cantidad) }}</p>
+          </div>
+          {% endfor %}
+
+          <div style="display:flex; justify-content:space-between; margin-top:8px;">
+            <p style="font-size:12px; color:var(--texto-suave); letter-spacing:1px; text-transform:uppercase;">Envio</p>
+            <p style="font-size:12px; color:var(--texto-suave);">A coordinar</p>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; margin-top:16px; padding-top:16px; border-top:1px solid #c5bfb0;">
+            <p style="font-family:var(--font-serif); font-size:16px; color:var(--verde);">Total</p>
+            <p style="font-family:var(--font-serif); font-size:20px; color:var(--dorado);">$ {{ "%.2f"|format(total) }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function mostrarPago(tipo) {
+    document.getElementById('info-pichincha').style.display = 'none';
+    document.getElementById('info-produbanco').style.display = 'none';
+    document.getElementById('info-entrega').style.display = 'none';
+    document.getElementById('comprobante-box').style.display = 'none';
+    document.getElementById('input-comprobante').removeAttribute('required');
+
+    if (tipo === 'pichincha') {
+        document.getElementById('info-pichincha').style.display = 'block';
+        document.getElementById('comprobante-box').style.display = 'block';
+        document.getElementById('input-comprobante').setAttribute('required', 'required');
+    } else if (tipo === 'produbanco') {
+        document.getElementById('info-produbanco').style.display = 'block';
+        document.getElementById('comprobante-box').style.display = 'block';
+        document.getElementById('input-comprobante').setAttribute('required', 'required');
+    } else {
+        document.getElementById('info-entrega').style.display = 'block';
+    }
+}
+</script>
+
+{% endblock %}
