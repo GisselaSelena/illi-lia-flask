@@ -151,6 +151,20 @@ def editar_usuario(id):
 
     return render_template("editar_usuario.html", usuario=usuario)
 
+@app.route("/productos")
+@login_required
+def productos():
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+
+    conexion.close()
+
+    return render_template("productos/productos.html", productos=productos)
+
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
 
@@ -199,7 +213,7 @@ def login():
         if user:
             usuario = Usuario(user[0], user[1], user[2], user[3])
             login_user(usuario)
-            return redirect("/usuarios")
+            return redirect("/productos")
         else:
             mensaje = "Usuario o contraseña incorrecta"
 

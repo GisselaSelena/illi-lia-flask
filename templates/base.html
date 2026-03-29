@@ -7,26 +7,26 @@
 </head>
 <body>
 
-<header>
-    <h1>ILLÍ LIÁ</h1>
-    <p class="eslogan">Jabones Decorativos Artesanales</p>
+<header class="header">
+    <div class="container">
+        <h1>ILLÍ LIÁ</h1>
+        <p class="eslogan">Jabones Decorativos Artesanales</p>
 
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/about">Acerca de</a>
-    </nav>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/about">Acerca de</a>
+        </nav>
 
-    <div class="auth">
-        {% if current_user.is_authenticated %}
-            <p>Bienvenido, {{ current_user.nombre }}</p>
-            <a href="/logout">Cerrar sesión</a>
-        {% else %}
-            <a href="/login">Login</a>
-            <a href="/registro">Registro</a>
-        {% endif %}
+        <div class="auth">
+            {% if current_user.is_authenticated %}
+                <span>👋 {{ current_user.nombre }}</span>
+                <a href="/logout">Cerrar sesión</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/registro">Registro</a>
+            {% endif %}
+        </div>
     </div>
-
-    <hr>
 </header>
 
 <main>

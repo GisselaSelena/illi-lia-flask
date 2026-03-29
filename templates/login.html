@@ -2,16 +2,20 @@
 
 {% block content %}
 
-<h2>Login</h2>
+<div class="card">
 
-<form method="POST">
-    <input type="text" name="mail" placeholder="Correo" required><br><br>
-    <input type="password" name="password" placeholder="Contraseña" required><br><br>
-    <button type="submit">Ingresar</button>
-</form>
+    <h2>Login</h2>
 
-{% if mensaje %}
-<p style="color: red;">{{ mensaje }}</p>
-{% endif %}
+    <form method="POST">
+        <input type="text" name="mail" placeholder="Correo" required><br><br>
+        <input type="password" name="password" placeholder="Contraseña" required><br><br>
+        <button type="submit">Ingresar</button>
+    </form>
+
+    {% if mensaje %}
+    <p style="color: red;">{{ mensaje }}</p>
+    {% endif %}
+
+</div>
 
 {% endblock %}
