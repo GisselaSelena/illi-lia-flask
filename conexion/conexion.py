@@ -1,10 +1,10 @@
 import mysql.connector
 
 def obtener_conexion():
-    conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="illi_lia"
+    return mysql.connector.connect(
+        host="sql10.freesqldatabase.com",
+        user="sql10821670",
+        password="5DzjQcFwnG",
+        database="sql10821670",
+        port=3306
     )
-    return conexion
