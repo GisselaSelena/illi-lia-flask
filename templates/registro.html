@@ -20,7 +20,9 @@
             <form method="POST">
                 <div class="form-group">
                     <label>Nombre completo</label>
-                    <input type="text" name="nombre" placeholder="Tu nombre" required>
+                    <input type="text" name="nombre" placeholder="Tu nombre"
+                           pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+"
+                           title="Solo letras" required>
                 </div>
 
                 <div class="form-group">

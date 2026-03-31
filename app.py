@@ -132,6 +132,7 @@ def confirmar_pedido():
         return redirect("/carrito")
 
     metodo = request.form.get("metodo_pago", "contra entrega")
+    telefono_envio = request.form.get("telefono", "")
     comprobante_nombre = None
 
     if "comprobante" in request.files:
@@ -149,7 +150,8 @@ def confirmar_pedido():
             id_producto=item["id"],
             cantidad=item["cantidad"],
             metodo_pago=metodo,
-            comprobante=comprobante_nombre
+            comprobante=comprobante_nombre,
+            telefono_envio=telefono_envio
         )
         if not ok:
             errores.append(f"{item['nombre']}: {msg}")
@@ -169,10 +171,14 @@ def registro():
         password = generate_password_hash(request.form["password"], method='pbkdf2:sha256')
         conexion = obtener_conexion()
         cursor   = conexion.cursor()
-        cursor.execute("INSERT INTO usuarios (nombre, mail, password) VALUES (%s,%s,%s)", (nombre, mail, password))
+        cursor.execute(
+            "INSERT INTO usuarios (nombre, mail, password) VALUES (%s,%s,%s)",
+            (nombre, mail, password)
+        )
         conexion.commit()
         conexion.close()
-        return redirect("/login")
+        next_page = request.args.get("next", "/login")
+        return redirect(next_page)
     return render_template("registro.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -189,6 +195,9 @@ def login():
         if user and check_password_hash(user[3], password):
             usuario = Usuario(user[0], user[1], user[2], user[3], user[4])
             login_user(usuario)
+            next_page = request.args.get("next")
+            if next_page:
+                return redirect(next_page)
             if usuario.rol == 'admin':
                 return redirect("/productos")
             else:
@@ -314,42 +323,160 @@ def cambiar_estado_pedido(id):
 @app.route("/reporte-pdf")
 @login_required
 def reporte_pdf():
+    if current_user.rol != 'admin':
+        return redirect("/")
+
+    pedidos = obtener_todos_pedidos()
     productos = obtener_productos()
+
     pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Helvetica", "B", 18)
+
+    # =============================================
+    # PAGINA 1: REPORTE DE PEDIDOS
+    # =============================================
+    pdf.add_page("L")
+    pdf.set_font("Helvetica", "B", 20)
     pdf.set_text_color(28, 58, 42)
     pdf.cell(0, 14, "ILLI LIA", align="C", new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "I", 10)
     pdf.set_text_color(100, 120, 100)
-    pdf.cell(0, 8, "Jabones Decorativos Artesanales", align="C", new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 8, "Reporte de Productos", align="C", new_x="LMARGIN", new_y="NEXT")
-    pdf.ln(4)
+    pdf.cell(0, 7, "Jabones Decorativos Artesanales", align="C", new_x="LMARGIN", new_y="NEXT")
+    pdf.ln(2)
+
     pdf.set_draw_color(201, 168, 76)
     pdf.set_line_width(0.8)
-    pdf.line(10, pdf.get_y(), 200, pdf.get_y())
+    pdf.line(10, pdf.get_y(), 287, pdf.get_y())
     pdf.ln(6)
+
+    pdf.set_font("Helvetica", "B", 14)
+    pdf.set_text_color(28, 58, 42)
+    pdf.cell(0, 10, "Reporte de Pedidos", new_x="LMARGIN", new_y="NEXT")
+    pdf.ln(2)
+
+    if pedidos:
+        pdf.set_fill_color(28, 58, 42)
+        pdf.set_text_color(201, 168, 76)
+        pdf.set_font("Helvetica", "B", 9)
+        pdf.cell(15, 10, "#",         border=1, fill=True)
+        pdf.cell(40, 10, "Cliente",   border=1, fill=True)
+        pdf.cell(35, 10, "Telefono",  border=1, fill=True)
+        pdf.cell(50, 10, "Producto",  border=1, fill=True)
+        pdf.cell(18, 10, "Cant.",     border=1, fill=True)
+        pdf.cell(30, 10, "Total",     border=1, fill=True)
+        pdf.cell(35, 10, "Metodo",    border=1, fill=True)
+        pdf.cell(28, 10, "Estado",    border=1, fill=True)
+        pdf.cell(26, 10, "Fecha",     border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+
+        pdf.set_text_color(28, 58, 42)
+        pdf.set_font("Helvetica", "", 9)
+        fill = False
+        gran_total = 0
+
+        for p in pedidos:
+            pdf.set_fill_color(245, 242, 235) if fill else pdf.set_fill_color(255, 255, 255)
+            total_pedido = float(p[4])
+            gran_total += total_pedido
+            fecha = p[8].strftime('%d/%m/%Y') if p[8] else '-'
+            telefono = str(p[9]) if p[9] else '-'
+
+            pdf.cell(15, 9, str(p[0]),                          border=1, fill=True)
+            pdf.cell(40, 9, str(p[1])[:20],                     border=1, fill=True)
+            pdf.cell(35, 9, telefono,                            border=1, fill=True)
+            pdf.cell(50, 9, str(p[2])[:25],                     border=1, fill=True)
+            pdf.cell(18, 9, str(p[3]),                           border=1, fill=True)
+            pdf.cell(30, 9, f"$ {total_pedido:.2f}",             border=1, fill=True)
+            pdf.cell(35, 9, str(p[6] or 'contra entrega')[:18], border=1, fill=True)
+            pdf.cell(28, 9, str(p[5]).upper()[:12],              border=1, fill=True)
+            pdf.cell(26, 9, fecha,                               border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+            fill = not fill
+
+        pdf.ln(4)
+        pdf.set_font("Helvetica", "B", 11)
+        pdf.set_text_color(28, 58, 42)
+        pdf.cell(158, 10, "Total general:", align="R")
+        pdf.set_text_color(201, 168, 76)
+        pdf.cell(50, 10, f"$ {gran_total:.2f}")
+        pdf.ln(8)
+
+        pendientes = sum(1 for p in pedidos if p[5] == 'pendiente')
+        completados = sum(1 for p in pedidos if p[5] == 'completado')
+        cancelados = sum(1 for p in pedidos if p[5] == 'cancelado')
+
+        pdf.set_font("Helvetica", "", 9)
+        pdf.set_text_color(100, 120, 100)
+        pdf.cell(0, 7, f"Resumen:  {len(pedidos)} pedidos totales  |  {pendientes} pendientes  |  {completados} completados  |  {cancelados} cancelados", align="C", new_x="LMARGIN", new_y="NEXT")
+    else:
+        pdf.set_font("Helvetica", "I", 11)
+        pdf.set_text_color(100, 120, 100)
+        pdf.cell(0, 10, "No hay pedidos registrados", align="C", new_x="LMARGIN", new_y="NEXT")
+
+    # =============================================
+    # PAGINA 2: REPORTE DE INVENTARIO
+    # =============================================
+    pdf.add_page("L")
+    pdf.set_font("Helvetica", "B", 20)
+    pdf.set_text_color(28, 58, 42)
+    pdf.cell(0, 14, "ILLI LIA", align="C", new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("Helvetica", "I", 10)
+    pdf.set_text_color(100, 120, 100)
+    pdf.cell(0, 7, "Jabones Decorativos Artesanales", align="C", new_x="LMARGIN", new_y="NEXT")
+    pdf.ln(2)
+
+    pdf.set_draw_color(201, 168, 76)
+    pdf.set_line_width(0.8)
+    pdf.line(10, pdf.get_y(), 287, pdf.get_y())
+    pdf.ln(6)
+
+    pdf.set_font("Helvetica", "B", 14)
+    pdf.set_text_color(28, 58, 42)
+    pdf.cell(0, 10, "Reporte de Inventario", new_x="LMARGIN", new_y="NEXT")
+    pdf.ln(2)
+
     pdf.set_fill_color(28, 58, 42)
     pdf.set_text_color(201, 168, 76)
     pdf.set_font("Helvetica", "B", 10)
-    pdf.cell(15, 10, "ID",       border=1, fill=True)
-    pdf.cell(85, 10, "Nombre",   border=1, fill=True)
-    pdf.cell(45, 10, "Precio",   border=1, fill=True)
-    pdf.cell(45, 10, "Cantidad", border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(20, 10, "ID",       border=1, fill=True)
+    pdf.cell(120, 10, "Producto", border=1, fill=True)
+    pdf.cell(60, 10, "Precio",   border=1, fill=True)
+    pdf.cell(60, 10, "Stock",    border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+
     pdf.set_text_color(28, 58, 42)
     pdf.set_font("Helvetica", "", 10)
     fill = False
+    total_productos = 0
+    total_valor = 0
+
     for p in productos:
         pdf.set_fill_color(245, 242, 235) if fill else pdf.set_fill_color(255, 255, 255)
-        pdf.cell(15, 9, str(p[0]),               border=1, fill=True)
-        pdf.cell(85, 9, str(p[1]),               border=1, fill=True)
-        pdf.cell(45, 9, f"$ {float(p[2]):.2f}",  border=1, fill=True)
-        pdf.cell(45, 9, str(p[3]),               border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+        precio = float(p[2])
+        stock = int(p[3])
+        total_productos += stock
+        total_valor += precio * stock
+
+        pdf.cell(20, 9, str(p[0]),              border=1, fill=True)
+        pdf.cell(120, 9, str(p[1]),             border=1, fill=True)
+        pdf.cell(60, 9, f"$ {precio:.2f}",      border=1, fill=True)
+        pdf.cell(60, 9, str(stock),              border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
         fill = not fill
-    pdf.ln(8)
+
+    pdf.ln(4)
+    pdf.set_font("Helvetica", "B", 11)
+    pdf.set_text_color(28, 58, 42)
+    pdf.cell(140, 10, "Total unidades en stock:", align="R")
+    pdf.set_text_color(201, 168, 76)
+    pdf.cell(60, 10, str(total_productos))
+    pdf.ln(6)
+
+    pdf.set_text_color(28, 58, 42)
+    pdf.cell(140, 10, "Valor total del inventario:", align="R")
+    pdf.set_text_color(201, 168, 76)
+    pdf.cell(60, 10, f"$ {total_valor:.2f}")
+    pdf.ln(10)
+
     pdf.set_font("Helvetica", "I", 8)
     pdf.set_text_color(120, 120, 100)
     pdf.cell(0, 8, "Generado por el sistema Illi Lia - 2026", align="C")
+
     with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp:
         pdf.output(tmp.name)
         tmp_path = tmp.name
@@ -357,7 +484,7 @@ def reporte_pdf():
         tmp_path,
         mimetype='application/pdf',
         as_attachment=True,
-        download_name='reporte_productos.pdf'
+        download_name='reporte_illi_lia.pdf'
     )
 
 if __name__ == "__main__":

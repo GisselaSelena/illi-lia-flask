@@ -20,6 +20,7 @@
             <tr>
                 <th>#</th>
                 <th>Cliente</th>
+                <th>Teléfono</th>
                 <th>Producto</th>
                 <th>Cant.</th>
                 <th>Total</th>
@@ -35,6 +36,7 @@
             <tr>
                 <td>{{ p[0] }}</td>
                 <td>{{ p[1] }}</td>
+                <td style="font-size: 12px;">{{ p[9] or '—' }}</td>
                 <td style="font-family: var(--font-serif);">{{ p[2] }}</td>
                 <td>{{ p[3] }}</td>
                 <td style="color: var(--dorado); font-family: var(--font-serif);">
